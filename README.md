@@ -8,9 +8,9 @@ To avoid that you can use this little Bash script. It restarts `streamripper` au
 
 ## Usage
 ```
-$ streamrip.sh URL DIRECTORY FILENAME MINUTES
+$ streamrip URL DIRECTORY FILENAME MINUTES
 ```
-`streamrip.sh` will create specified DIRECTORY and inside it there will be the ripped file with name FILENAME. Current date and time will be appended to FILENAME automatically.
+`streamrip` will create specified DIRECTORY and inside it there will be the ripped file with name FILENAME. Current date and time will be appended to FILENAME automatically.
 
 MINUTES is the recording length in minutes.
 
