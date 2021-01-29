@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#
+# Usage: streamrip URL DIRECTORY FILENAME MINUTES
+#
+# Needs installed 'streamripper'!
+#
+
+if [ ${#} -ne 4 ]
+then
+  echo "Usage: streamrip URL DIRECTORY FILENAME MINUTES"
+  exit 1
+fi
+
+url=${1}
+directory="${2}"
+filename="${3}"
+duration_in_seconds=$(( ${4} * 60 ))
+
+maxRelayServerClients=3
+
+function record_stream() {
+
+	current_date=$(date +"%Y-%m-%d")
+	current_time=$(date +"%H-%M-%S")
+	output_filename="${current_date}_${filename}_${current_time}"
+
+	start_second=$(date +%s)
+	streamripper "${url}" -a "${output_filename}" -A -r -R ${maxRelayServerClients} -s -l ${duration_in_seconds} > "${output_filename}.txt"
+
+	sleep 1
+	end_second=$(date +%s)
+	duration_in_seconds=$(( ${duration_in_seconds} - ${end_second} + ${start_second} ))
+}
+
+
+mkdir -p "${directory}"
+cd "${directory}"
+
+while [ ${duration_in_seconds} -gt 10 ];
+do
+	record_stream
+done
+
+#delete all .cue files
+/bin/rm -f ./*.cue
